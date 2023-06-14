@@ -20,6 +20,7 @@ public class EventResponse {
   LocalDateTime date;
   String description;
   int capacity;
+  int ticketsLeft;
 
   public EventResponse (Event event){
     this.id = event.getId();
@@ -27,6 +28,7 @@ public class EventResponse {
     this.date = event.getDate();
     this.description = event.getDescription();
     this.capacity = event.getCapacity();
+    this.ticketsLeft = 0;
   }
 
 }

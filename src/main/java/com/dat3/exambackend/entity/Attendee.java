@@ -45,7 +45,15 @@ public class Attendee {
     this.username = attendeeRequest.getUsername();
     this.email = attendeeRequest.getEmail();
     this.phoneNumber = attendeeRequest.getPhoneNumber();
+    this.reservations = new ArrayList<>();
   }
 
+  public void addReservation(EventAttendee eventAttendee){
+    reservations.add(eventAttendee);
+  }
+
+  public void removeReservation(EventAttendee eventAttendee){
+    reservations.remove(eventAttendee);
+  }
 
 }

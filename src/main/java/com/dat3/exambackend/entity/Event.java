@@ -28,6 +28,7 @@ public class Event {
   LocalDateTime date;
   String description;
   int capacity;
+  int booked;
 
   @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
   private List<EventAttendee> reservations = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Event {
     this.date = date;
     this.description = description;
     this.capacity = capacity;
+
   }
 
   public Event (EventRequest eventRequest){
@@ -48,6 +50,15 @@ public class Event {
     this.date = eventRequest.getDate();
     this.description = eventRequest.getDescription();
     this.capacity = eventRequest.getCapacity();
+    this.reservations = new ArrayList<>();
+  }
+
+  public void addReservation(EventAttendee eventAttendee){
+    reservations.add(eventAttendee);
+  }
+
+  public void removeReservation(EventAttendee eventAttendee){
+    reservations.remove(eventAttendee);
   }
 
 }

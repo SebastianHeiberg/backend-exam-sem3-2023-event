@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-class EventAttendee {
+public class EventAttendee {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -29,4 +29,8 @@ class EventAttendee {
   @ManyToOne
   private Event event;
 
+  public EventAttendee(Attendee attendee, Event event) {
+    this.attendee = attendee;
+    this.event = event;
+  }
 }
