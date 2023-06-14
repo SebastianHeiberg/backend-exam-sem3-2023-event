@@ -9,4 +9,6 @@ import java.util.List;
 public interface EventAttendeeRepository extends JpaRepository<EventAttendee,Long> {
 
   public List<EventAttendee> findAllByEvent_Id(Long id);
+  public List<EventAttendee> findAllByAttendee_Username(String username);
+  public void deleteByAttendee_UsernameAndEvent_Id(String username, Long eventId);
 }

@@ -2,6 +2,7 @@ package com.dat3.exambackend.service;
 
 import com.dat3.exambackend.dto.EventRequest;
 import com.dat3.exambackend.entity.Event;
+import com.dat3.exambackend.repository.EventAttendeeRepository;
 import com.dat3.exambackend.repository.EventRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,11 +24,14 @@ class EventServiceTest {
   @Autowired
   EventRepository eventRepository;
 
+  @Autowired
+  EventAttendeeRepository eventAttendeeRepository;
+
   EventService eventService;
 
   @BeforeEach
   void setUp() {
-    eventService = new EventService(eventRepository);
+    eventService = new EventService(eventRepository, eventAttendeeRepository);
     entityManager.createNativeQuery("ALTER TABLE EVENT ALTER COLUMN id RESTART WITH 1").executeUpdate();
     Event event = new Event("test", LocalDateTime.now(),"testi",3);
     eventRepository.saveAndFlush(event);

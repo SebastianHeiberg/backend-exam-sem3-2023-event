@@ -3,7 +3,9 @@ package com.dat3.exambackend.config;
 
 import com.dat3.exambackend.entity.Attendee;
 import com.dat3.exambackend.entity.Event;
+import com.dat3.exambackend.entity.EventAttendee;
 import com.dat3.exambackend.repository.AttendeeRepository;
+import com.dat3.exambackend.repository.EventAttendeeRepository;
 import com.dat3.exambackend.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,11 +22,28 @@ public class DeveloperData implements CommandLineRunner {
  @Autowired
   AttendeeRepository attendeeRepository;
 
+ @Autowired
+  EventAttendeeRepository eventAttendeeRepository;
+
   @Override
   public void run(String... args) throws Exception {
 
     makeEvents();
     makeMembers();
+    makeReservations();
+
+  }
+
+  public void makeReservations(){
+    Attendee attendee1 = attendeeRepository.findById("Marcus02").get();
+    Attendee attendee2 = attendeeRepository.findById("Hans04").get();
+    Event event1 = eventRepository.findById(1L).get();
+    Event event2 = eventRepository.findById(2L).get();
+
+    EventAttendee eventAttendee1 = new EventAttendee(attendee1,event1);
+    EventAttendee eventAttendee2 = new EventAttendee(attendee2,event2);
+    eventAttendeeRepository.save(eventAttendee1);
+    eventAttendeeRepository.save(eventAttendee2);
 
   }
 
@@ -34,7 +53,7 @@ public class DeveloperData implements CommandLineRunner {
     Attendee attendee1 = new Attendee("Sebastian01","sebastian@gmail.com",11020033);
     Attendee attendee2 = new Attendee("Marcus02","marcus@gmail.com",222030044);
     Attendee attendee3 = new Attendee("Tommy03","tommy@gmail.com",33300334);
-    Attendee attendee4 = new Attendee("Bjørn04","bjørn@gmail.com",132414);
+    Attendee attendee4 = new Attendee("Hans04","bjørn@gmail.com",132414);
 
     attendeeRepository.save(attendee1);
     attendeeRepository.save(attendee2);

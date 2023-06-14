@@ -37,16 +37,6 @@ public class EventService {
       response.setTicketsLeft(capacity-ticketsSold);
       return response;
     }).toList();
-
-
-
-
-
-//    events.stream().forEach(eventResponse -> {
-//      int ticketsSold = eventAttendeeRepository.findAllByEvent_Id(eventResponse.getId()).size();
-//      int capacity = eventResponse.getCapacity();
-//      eventResponse.setTicketsLeft(capacity-ticketsSold);
-//    });
     return events;
 
   }
