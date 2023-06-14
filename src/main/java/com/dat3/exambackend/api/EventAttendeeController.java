@@ -32,9 +32,9 @@ EventAttendeeService eventAttendeeService;
   }
 
   //kun brugeren burde have adgang
-  @DeleteMapping("/{username}/{eventId}}")
-  public void removeEventParticipation(@PathVariable String username, @PathVariable Long eventId) {
-    eventAttendeeService.removeAttendence(username, eventId);
+  @DeleteMapping("/{username}/{eventId}")
+  public ResponseEntity<Boolean> removeEventParticipation(@PathVariable String username, @PathVariable Long eventId) {
+    return eventAttendeeService.removeAttendence(username, eventId);
   }
 
 

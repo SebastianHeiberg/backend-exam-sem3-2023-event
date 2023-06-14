@@ -34,6 +34,10 @@ public class EventAttendeeService {
     Attendee attendee = attendeeRepository.findById(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this username dont exist"));
     Event event = eventRepository.findById(eventId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event with this ID dont exist"));
 
+    if (eventAttendeeRepository.existsByAttendee_UsernameAndEvent_Id(username,eventId)){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only one ticket pr event");
+    }
+
     int bookingings = eventAttendeeRepository.findAllByEvent_Id(event.getId()).size();
     int ticketleft = event.getCapacity()-bookingings;
 
@@ -57,10 +61,13 @@ public class EventAttendeeService {
 
   }
 
-  public void removeAttendence(String username, Long eventId) {
+  public ResponseEntity<Boolean> removeAttendence(String username, Long eventId) {
 
     try {
-      eventAttendeeRepository.deleteByAttendee_UsernameAndEvent_Id(username, eventId);
+     EventAttendee eventAttendee = eventAttendeeRepository.findEventAttendeeByAttendee_UsernameAndEvent_Id(username,eventId);
+      eventAttendeeRepository.delete(eventAttendee);
+      return new ResponseEntity<>(true, HttpStatus.OK);
+
     } catch (DataAccessException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error deleting event", e);
     }

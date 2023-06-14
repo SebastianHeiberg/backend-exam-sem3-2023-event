@@ -11,4 +11,6 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee,Lon
   public List<EventAttendee> findAllByEvent_Id(Long id);
   public List<EventAttendee> findAllByAttendee_Username(String username);
   public void deleteByAttendee_UsernameAndEvent_Id(String username, Long eventId);
+  public EventAttendee findEventAttendeeByAttendee_UsernameAndEvent_Id(String Username, Long eventId);
+  public Boolean existsByAttendee_UsernameAndEvent_Id(String username, Long id);
 }
