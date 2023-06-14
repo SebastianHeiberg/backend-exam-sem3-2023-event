@@ -25,7 +25,7 @@ public class EventController {
 
   //oprette nyt admin adgang
   @PostMapping()
-  public void makeEntity(@RequestBody EventRequest eventRequest) {
+  public void makeEvent(@RequestBody EventRequest eventRequest) {
     eventService.saveEvent(eventRequest);
   }
 

@@ -1,6 +1,7 @@
 package com.dat3.exambackend.entity;
 
 
+import com.dat3.exambackend.dto.AttendeeRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -33,4 +34,18 @@ public class Attendee {
   private LocalDateTime lastEdited;
   @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL)
   private List<EventAttendee> reservations = new ArrayList<>();
+
+  public Attendee(String username, String email, int phoneNumber) {
+    this.username = username;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+  }
+
+  public Attendee (AttendeeRequest attendeeRequest){
+    this.username = attendeeRequest.getUsername();
+    this.email = attendeeRequest.getEmail();
+    this.phoneNumber = attendeeRequest.getPhoneNumber();
+  }
+
+
 }
