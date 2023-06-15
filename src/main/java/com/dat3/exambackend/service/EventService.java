@@ -68,4 +68,18 @@ public class EventService {
     eventRepository.save(eventFromDB);
     return new EventResponse(eventFromDB);
   }
+
+  public List<EventResponse> getSpecificEvents(String title) {
+    List<EventResponse> events = eventRepository.findAll()
+        .stream()
+        .filter(event -> event.getName().toUpperCase().contains(title.toUpperCase()))
+        .map(entity -> {
+      EventResponse response = new EventResponse(entity);
+      int ticketsSold = eventAttendeeRepository.findAllByEvent_Id(entity.getId()).size();
+      int capacity = entity.getCapacity();
+      response.setTicketsLeft(capacity-ticketsSold);
+      return response;
+    }).toList();
+    return events;
+  }
 }

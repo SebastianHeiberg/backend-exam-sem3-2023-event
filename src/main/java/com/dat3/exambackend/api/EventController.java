@@ -6,6 +6,7 @@ import com.dat3.exambackend.dto.EventResponse;
 import com.dat3.exambackend.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,6 +36,12 @@ public class EventController {
   @GetMapping()
   public List<EventResponse> getEvents() {
     return eventService.getAllEvents();
+  }
+
+  //alle kan søge i alle events
+  @GetMapping("/title/{title}")
+  public List<EventResponse> getSpecificEvents(@PathVariable String title) {
+    return eventService.getSpecificEvents(title);
   }
 
   //kun admin

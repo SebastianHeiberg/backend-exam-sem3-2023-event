@@ -72,4 +72,15 @@ public class EventAttendeeService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error deleting event", e);
     }
   }
+
+  public List<EventResponse> searchEvents(String name, String search) {
+    Attendee attendee = attendeeRepository.findById(name).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this username dont exist"));
+    List<EventAttendee> eventAttendees = eventAttendeeRepository.findAllByAttendee_Username(attendee.getUsername()).stream().toList();
+    List<EventAttendee> filteredAttendees = eventAttendees.stream()
+        .filter(event -> event.getEvent().getName().toUpperCase().contains(search.toUpperCase()))
+        .toList();
+
+    List<EventResponse> events = filteredAttendees.stream().map(eventAttendee -> new EventResponse(eventAttendee.getEvent())).toList();
+    return events;
+  }
 }

@@ -34,11 +34,21 @@ EventAttendeeService eventAttendeeService;
     return eventAttendeeService.getAllMyEvents(p.getName());
   }
 
+
+  //kun brugeren burde have adgang
+  @PreAuthorize("hasAuthority('USER')")
+  @GetMapping("/{search}")
+  public List<EventResponse> getSpecificEvents(Principal p, @PathVariable String search) {
+    return eventAttendeeService.searchEvents(p.getName(), search);
+  }
+
   //kun brugeren burde have adgang
   @DeleteMapping("/{eventId}")
   public ResponseEntity<Boolean> removeEventParticipation(Principal p, @PathVariable Long eventId) {
     return eventAttendeeService.removeAttendence(p.getName(), eventId);
   }
+
+
 
 
 }
