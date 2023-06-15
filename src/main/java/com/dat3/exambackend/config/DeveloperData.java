@@ -37,9 +37,6 @@ public class DeveloperData implements CommandLineRunner {
     makeEvents();
     makeMembers();
     makeReservations();
-    Attendee attendee = new Attendee("admin","test12","hejberg@gmail.com",234);
-    attendee.addRole(Role.ADMIN);
-    attendeeRepository.save(attendee);
 
   }
 
@@ -59,6 +56,10 @@ public class DeveloperData implements CommandLineRunner {
 
   public void makeMembers(){
     String password = "test12";
+    Attendee attendee = new Attendee("admin","test12","hejberg@gmail.com",234);
+    attendee.addRole(Role.ADMIN);
+    attendeeRepository.save(attendee);
+
     Attendee attendee1 = new Attendee("user",password,"sebastian@gmail.com",11020033);
     Attendee attendee2 = new Attendee("Marcus02",password,"marcus@gmail.com",222030044);
     Attendee attendee3 = new Attendee("Tommy03",password,"tommy@gmail.com",33300334);

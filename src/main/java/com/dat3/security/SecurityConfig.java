@@ -83,7 +83,7 @@ public class SecurityConfig {
         //alle kan lave bruger
             .requestMatchers(HttpMethod.POST, "/api/attendee").permitAll()
         //alle kan tilgå at se alle events
-            .requestMatchers(HttpMethod.POST, "/api/event").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/event").permitAll()
 
             //Required in order to use the h2-console
             .requestMatchers("/h2*/**").permitAll()
