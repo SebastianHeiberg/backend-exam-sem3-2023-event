@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class EventServiceTest {
 
-/*
+
   //bruges til at sætte auto-increment start til 1 igen
-//  @Autowired
-//  private EntityManager entityManager;
+  @Autowired
+  private EntityManager entityManager;
 
   @Autowired
   EventRepository eventRepository;
@@ -34,51 +34,47 @@ class EventServiceTest {
   void setUp() {
     eventService = new EventService(eventRepository, eventAttendeeRepository);
 //    entityManager.createNativeQuery("ALTER TABLE EVENT ALTER COLUMN id RESTART WITH 1").executeUpdate();
-    Event event = new Event("test", LocalDateTime.now(),"testi",3);
+    Event event = new Event("test", LocalDateTime.now(), "testi", 3);
     eventRepository.saveAndFlush(event);
 
   }
 
   @Test
   void saveEvent() {
-    Event event = new Event("test3", LocalDateTime.now(),"testi",3);
+    Event event = new Event("test3", LocalDateTime.now(), "testi", 3);
     eventRepository.save(event);
     int actual = eventRepository.findAll().size();
     int expected = 2;
-assertEquals(actual,expected);
+    assertEquals(actual, expected);
   }
 
   @Test
   void getAllEvents() {
     int actual = eventRepository.findAll().size();
     int expected = 1;
-    assertEquals(actual,expected);
+    assertEquals(actual, expected);
   }
 
-  @Test
-  void getEvent() {
-    Long id = 1L;
-    assertTrue(eventRepository.existsById(id));
 
-  @Test
-  void deleteEvent() {
-    Long id = 1L;
-    eventService.deleteEvent(id);
-    int actual = eventRepository.findAll().size();
-    int expected = 0;
-    assertEquals(actual,expected);
 
+    @Test
+    void deleteEvent() {
+      Long id = 1L;
+      eventService.deleteEvent(id);
+      int actual = eventRepository.findAll().size();
+      int expected = 0;
+      assertEquals(actual, expected);
+
+
+    }
+
+    @Test
+    void editEvent() {
+      Long id = 1L;
+      assertEquals("test", eventRepository.findById(id).get().getName());
+      EventRequest eventRequest = new EventRequest("Sebastian", LocalDateTime.now(), "opdateret", 4);
+      eventService.editEvent(eventRequest, id);
+      assertEquals("Sebastian", eventRepository.findById(id).get().getName());
+    }
 
   }
-
-  @Test
-  void editEvent() {
-    Long id = 1L;
-    assertEquals("test",eventRepository.findById(id).get().getName());
-    EventRequest eventRequest = new EventRequest("Sebastian", LocalDateTime.now(),"opdateret",4);
-    eventService.editEvent(eventRequest,id);
-    assertEquals("Sebastian",eventRepository.findById(id).get().getName());
-  }
-  */
-
-}
