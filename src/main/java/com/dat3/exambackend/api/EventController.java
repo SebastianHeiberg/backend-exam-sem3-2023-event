@@ -5,6 +5,7 @@ import com.dat3.exambackend.dto.EventRequest;
 import com.dat3.exambackend.dto.EventResponse;
 import com.dat3.exambackend.service.EventService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,9 +25,10 @@ public class EventController {
   }
 
   //oprette nyt admin adgang
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping()
-  public void makeEvent(@RequestBody EventRequest eventRequest) {
-    eventService.saveEvent(eventRequest);
+  public ResponseEntity<Boolean> makeEvent(@RequestBody EventRequest eventRequest) {
+    return eventService.saveEvent(eventRequest);
   }
 
   //alle kan se alle events
@@ -36,12 +38,14 @@ public class EventController {
   }
 
   //kun admin
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping("/{id}")
   public EventResponse getEvent(@PathVariable Long id) {
     return eventService.getEvent(id);
   }
 
   //kun admin
+  @PreAuthorize("hasAuthority('ADMIN')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Boolean> deleteEvent(@PathVariable Long id) {
     return eventService.deleteEvent(id);
@@ -49,6 +53,7 @@ public class EventController {
 
   //kun admin
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public EventResponse editMember(@RequestBody EventRequest body, @PathVariable Long id){
     return eventService.editEvent(body,id);
   }

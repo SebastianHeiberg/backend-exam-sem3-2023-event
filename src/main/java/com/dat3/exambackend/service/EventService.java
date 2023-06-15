@@ -24,9 +24,10 @@ public class EventService {
     this.eventAttendeeRepository = eventAttendeeRepository;
   }
 
-  public void saveEvent(EventRequest eventRequest){
+  public ResponseEntity<Boolean> saveEvent(EventRequest eventRequest){
     Event event= new Event(eventRequest);
     eventRepository.save(event);
+    return new ResponseEntity<>(true, HttpStatus.OK);
   }
 
   public List<EventResponse> getAllEvents(){

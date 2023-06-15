@@ -12,6 +12,7 @@ public class AttendeeRequest {
   String username;
   String email;
   int phoneNumber;
+  String password;
 
 
 }

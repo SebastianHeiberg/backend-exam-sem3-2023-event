@@ -3,6 +3,7 @@ package com.dat3.exambackend.service;
 import com.dat3.exambackend.dto.AttendeeRequest;
 import com.dat3.exambackend.entity.Attendee;
 import com.dat3.exambackend.repository.AttendeeRepository;
+import com.dat3.security.repository.UserWithRolesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,21 @@ class AttendeeServiceTest {
   @Autowired
   AttendeeRepository attendeeRepository;
 
+  @Autowired
+  UserWithRolesRepository userWithRolesRepository;
+
   AttendeeService attendeeService;
 
   @BeforeEach
   void setUp() {
-    attendeeService = new AttendeeService(attendeeRepository);
-    Attendee attendee = new Attendee("test","Test@gmail.com",23);
+    attendeeService = new AttendeeService(attendeeRepository, userWithRolesRepository);
+    Attendee attendee = new Attendee("test","Test@gmail.com","test",23);
     attendeeRepository.save(attendee);
   }
 
   @Test
   void saveAttendee() {
-    AttendeeRequest attendeeRequest = new AttendeeRequest("test2","Test2@gmail.com",34);
+    AttendeeRequest attendeeRequest = new AttendeeRequest("test2","Test2@gmail.com",34,"max");
     attendeeService.saveAttendee(attendeeRequest);
     assertEquals(2,attendeeRepository.findAll().size());
 
@@ -35,7 +39,7 @@ class AttendeeServiceTest {
 
   @Test
   void editAttendee() {
-    AttendeeRequest attendeeRequest = new AttendeeRequest("test","anew@gmail.com",23);
+    AttendeeRequest attendeeRequest = new AttendeeRequest("test3","anew@gmail.com",23,"mati");
     attendeeService.editAttendee(attendeeRequest,"test");
 
     assertEquals("anew@gmail.com",attendeeRepository.findById("test").get().getEmail());

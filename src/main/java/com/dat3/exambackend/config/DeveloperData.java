@@ -7,6 +7,9 @@ import com.dat3.exambackend.entity.EventAttendee;
 import com.dat3.exambackend.repository.AttendeeRepository;
 import com.dat3.exambackend.repository.EventAttendeeRepository;
 import com.dat3.exambackend.repository.EventRepository;
+import com.dat3.security.entity.Role;
+import com.dat3.security.entity.UserWithRoles;
+import com.dat3.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -25,12 +28,18 @@ public class DeveloperData implements CommandLineRunner {
  @Autowired
   EventAttendeeRepository eventAttendeeRepository;
 
+ @Autowired
+  UserWithRolesRepository userWithRolesRepository;
+
   @Override
   public void run(String... args) throws Exception {
 
     makeEvents();
     makeMembers();
     makeReservations();
+    Attendee attendee = new Attendee("admin","test12","hejberg@gmail.com",234);
+    attendee.addRole(Role.ADMIN);
+    attendeeRepository.save(attendee);
 
   }
 
@@ -49,13 +58,17 @@ public class DeveloperData implements CommandLineRunner {
 
 
   public void makeMembers(){
-
-    Attendee attendee1 = new Attendee("Sebastian01","sebastian@gmail.com",11020033);
-    Attendee attendee2 = new Attendee("Marcus02","marcus@gmail.com",222030044);
-    Attendee attendee3 = new Attendee("Tommy03","tommy@gmail.com",33300334);
-    Attendee attendee4 = new Attendee("Hans04","bjørn@gmail.com",132414);
-
-    attendeeRepository.save(attendee1);
+    String password = "test12";
+    Attendee attendee1 = new Attendee("user",password,"sebastian@gmail.com",11020033);
+    Attendee attendee2 = new Attendee("Marcus02",password,"marcus@gmail.com",222030044);
+    Attendee attendee3 = new Attendee("Tommy03",password,"tommy@gmail.com",33300334);
+    Attendee attendee4 = new Attendee("Hans04",password,"bjørn@gmail.com",132414);
+    attendee1.addRole(Role.USER);
+    attendee2.addRole(Role.USER);
+    attendee3.addRole(Role.USER);
+    attendee4.addRole(Role.USER);
+    attendee1 = attendeeRepository.save(attendee1);
+    userWithRolesRepository.save(attendee1);
     attendeeRepository.save(attendee2);
     attendeeRepository.save(attendee3);
     attendeeRepository.save(attendee4);

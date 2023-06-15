@@ -4,6 +4,8 @@ import com.dat3.exambackend.dto.AttendeeRequest;
 import com.dat3.exambackend.dto.AttendeeResponse;
 import com.dat3.exambackend.entity.Attendee;
 import com.dat3.exambackend.repository.AttendeeRepository;
+import com.dat3.security.entity.Role;
+import com.dat3.security.repository.UserWithRolesRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,14 +16,18 @@ public class AttendeeService {
 
   AttendeeRepository attendeeRepository;
 
-  public AttendeeService(AttendeeRepository attendeeRepository) {
+  UserWithRolesRepository userWithRolesRepository;
+
+  public AttendeeService(AttendeeRepository attendeeRepository, UserWithRolesRepository userWithRolesRepository) {
     this.attendeeRepository = attendeeRepository;
+    this.userWithRolesRepository = userWithRolesRepository;
   }
 
-
   public AttendeeResponse saveAttendee(AttendeeRequest attendeeRequest) {
-    Attendee attendee = new Attendee(attendeeRequest);
+    Attendee attendee = new Attendee(attendeeRequest.getUsername(),attendeeRequest.getPassword(),attendeeRequest.getEmail(),attendeeRequest.getPhoneNumber());
+    attendee.addRole(Role.USER);
     attendeeRepository.save(attendee);
+
     return new AttendeeResponse(attendee);
   }
 
